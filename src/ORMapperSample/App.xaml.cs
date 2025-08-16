@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ORMapperSample.Data;
-using ORMapperSample.ViewModels;
 using System.IO;
 using System.Windows;
 
@@ -64,16 +63,8 @@ namespace ORMapperSample
                 }
             });
 
-            // ViewModelの登録
-            services.AddTransient<MainViewModel>();
-
             // Windowの登録
-            services.AddTransient<MainWindow>(provider =>
-            {
-                var window = new MainWindow();
-                window.DataContext = provider.GetRequiredService<MainViewModel>();
-                return window;
-            });
+            services.AddTransient<MainWindow>();
         }
 
         protected override void OnExit(ExitEventArgs e)
