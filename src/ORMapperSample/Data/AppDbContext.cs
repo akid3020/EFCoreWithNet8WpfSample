@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ORMapperSample.Models;
+using System.Diagnostics;
 
 namespace ORMapperSample.Data;
 
@@ -11,6 +13,17 @@ public class AppDbContext : DbContext
 
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        // SQLログ出力の設定
+        optionsBuilder.LogTo(x => Debug.WriteLine(x), LogLevel.Information);
+        // カテゴリを指定する場合
+        //optionsBuilder.LogTo(
+        //    x => Debug.WriteLine(x),
+        //    new[] { DbLoggerCategory.Database.Command.Name },
+        //    LogLevel.Information);
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,7 +44,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.CategoryId).HasDefaultValue(1);
             entity.Property(e => e.CreatedAt).IsRequired();
             entity.Property(e => e.UpdatedAt).IsRequired();
-            
+
             entity.HasOne(p => p.Category)
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId)
