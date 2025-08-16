@@ -6,6 +6,10 @@
 * 在庫管理ツールのイメージで、画面から商品レコードの追加・編集・削除が可能
 * 商品を管理する Product テーブルと、それに紐づく Category テーブルがある
 
+## ブランチ
+
+* main : MVVMでの実装 (CommunityToolkit.Mvvm)
+* without_mvvm : コードビハインドでの実装
 
 ## ファイル構成
 
